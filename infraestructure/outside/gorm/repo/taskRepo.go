@@ -1,8 +1,8 @@
 package repo
 
 import (
-	"clean-arquitecture-go/infraestructure/outside/gorm/config"
-	"clean-arquitecture-go/infraestructure/outside/gorm/entity"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/config"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/entity"
 	"github.com/labstack/gommon/log"
 	"gorm.io/gorm"
 )

@@ -1,8 +1,8 @@
 package router
 
 import (
-	"clean-arquitecture-go/infraestructure/inside/controller"
-	"clean-arquitecture-go/infraestructure/inside/swagger"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/controller"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/swagger"
 
 	"github.com/labstack/echo/v4"
 )

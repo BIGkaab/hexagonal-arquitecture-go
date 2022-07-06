@@ -1,7 +1,7 @@
 package in
 
 import (
-	"clean-arquitecture-go/domain"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/domain"
 )
 
 type TaskPortIn interface {

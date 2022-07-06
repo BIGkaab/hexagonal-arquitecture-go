@@ -1,7 +1,7 @@
 package out
 
 import (
-	"clean-arquitecture-go/infraestructure/outside/gorm/entity"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/entity"
 )
 
 type TaskPortOut interface {

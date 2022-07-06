@@ -1,11 +1,11 @@
 package main
 
 import (
-	"clean-arquitecture-go/infraestructure/inside/router"
-	"clean-arquitecture-go/infraestructure/outside/gorm/config"
-	"clean-arquitecture-go/infraestructure/outside/gorm/migration"
-	"clean-arquitecture-go/infraestructure/outside/gorm/seeder"
 	"fmt"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/router"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/config"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/migration"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/seeder"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )

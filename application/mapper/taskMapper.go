@@ -1,9 +1,9 @@
 package mapper
 
 import (
-	"clean-arquitecture-go/domain"
-	"clean-arquitecture-go/infraestructure/inside/dto"
-	"clean-arquitecture-go/infraestructure/outside/gorm/entity"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/domain"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/dto"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/entity"
 )
 
 type TaskMapper interface {

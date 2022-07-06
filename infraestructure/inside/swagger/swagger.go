@@ -1,7 +1,7 @@
 package swagger
 
 import (
-	_ "clean-arquitecture-go/infraestructure/inside/swagger/docs"
+	_ "github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/swagger/docs"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )

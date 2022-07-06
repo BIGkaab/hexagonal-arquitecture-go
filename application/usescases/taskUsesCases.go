@@ -1,11 +1,11 @@
 package usescases
 
 import (
-	"clean-arquitecture-go/application/mapper"
-	"clean-arquitecture-go/application/mapper/impl"
-	"clean-arquitecture-go/application/port/out"
-	"clean-arquitecture-go/domain"
-	"clean-arquitecture-go/infraestructure/outside/gorm/repo"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper/impl"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/port/out"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/domain"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/repo"
 	"github.com/labstack/gommon/log"
 )
 

@@ -1,12 +1,12 @@
 package controller
 
 import (
-	"clean-arquitecture-go/application/mapper"
-	"clean-arquitecture-go/application/mapper/impl"
-	"clean-arquitecture-go/application/port/in"
-	"clean-arquitecture-go/application/usescases"
-	"clean-arquitecture-go/infraestructure/inside/dto"
 	"fmt"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper/impl"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/port/in"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/usescases"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/dto"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"net/http"
