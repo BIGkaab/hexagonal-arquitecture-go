@@ -1,0 +1,13 @@
+package out
+
+import (
+	"clean-arquitecture-go/infraestructure/outside/gorm/entity"
+)
+
+type TaskPortOut interface {
+	OutGetAllTasks() ([]entity.Task, error)
+	OutAddTask(task *entity.Task) (*entity.Task, error)
+	OutFindTaskById(ID int) (entity.Task, error)
+	OutInUpdateTask(ID int, task *entity.Task) (*entity.Task, error)
+	OutDeleteTask(ID int) error
+}
