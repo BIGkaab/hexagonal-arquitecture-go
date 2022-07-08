@@ -148,6 +148,12 @@ var doc = `{
                             "$ref": "#/definitions/dto.MessageError"
                         }
                     },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.MessageError"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -195,6 +201,12 @@ var doc = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.MessageError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/dto.MessageError"
                         }
@@ -274,7 +286,7 @@ var doc = `{
             "required": [
                 "description",
                 "name",
-                "puntuation"
+                "punctuation"
             ],
             "properties": {
                 "description": {
@@ -288,7 +300,7 @@ var doc = `{
                     "type": "string",
                     "example": "Estudiar Go"
                 },
-                "puntuation": {
+                "punctuation": {
                     "type": "integer",
                     "maximum": 10,
                     "minimum": 1,

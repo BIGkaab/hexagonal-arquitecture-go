@@ -21,7 +21,7 @@ definitions:
       name:
         example: Estudiar Go
         type: string
-      puntuation:
+      punctuation:
         example: 2
         maximum: 10
         minimum: 1
@@ -29,7 +29,7 @@ definitions:
     required:
     - description
     - name
-    - puntuation
+    - punctuation
     type: object
 host: localhost:3005
 info:
@@ -148,6 +148,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dto.MessageError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.MessageError'
         "500":
           description: Internal Server Error
           schema:
@@ -180,6 +184,10 @@ paths:
             $ref: '#/definitions/dto.Message'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.MessageError'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/dto.MessageError'
         "500":

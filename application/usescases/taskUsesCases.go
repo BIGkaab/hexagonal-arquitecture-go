@@ -54,7 +54,7 @@ func (t TaskServiceRepo) InFindTaskById(ID int) (domain.Task, error) {
 
 func (t TaskServiceRepo) InUpdateTask(ID int, task domain.Task) (domain.Task, error) {
 	taskEntity := t.mapper.TaskDomainToEntity(task)
-	resDomain, err := t.portOut.OutInUpdateTask(ID, &taskEntity)
+	resDomain, err := t.portOut.OutUpdateTask(ID, &taskEntity)
 	if err != nil {
 		log.Error(err)
 		return task, err

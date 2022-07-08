@@ -134,6 +134,12 @@
                             "$ref": "#/definitions/dto.MessageError"
                         }
                     },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.MessageError"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -181,6 +187,12 @@
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.MessageError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/dto.MessageError"
                         }
@@ -260,7 +272,7 @@
             "required": [
                 "description",
                 "name",
-                "puntuation"
+                "punctuation"
             ],
             "properties": {
                 "description": {
@@ -274,7 +286,7 @@
                     "type": "string",
                     "example": "Estudiar Go"
                 },
-                "puntuation": {
+                "punctuation": {
                     "type": "integer",
                     "maximum": 10,
                     "minimum": 1,

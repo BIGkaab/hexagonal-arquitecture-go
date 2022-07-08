@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/controller"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/enum"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/swagger"
 
 	"github.com/labstack/echo/v4"
@@ -18,14 +19,14 @@ import (
 // @host localhost:3005
 // @BasePath /api
 func Routes(e *echo.Echo) {
-	v1 := e.Group("/api")
-	tasks := v1.Group("/tasks")
+	v1 := e.Group(enum.ROUTER_GROUP_GLOBAL)
+	tasks := v1.Group(enum.ROUTER_TASK_GROUP)
 	{
 		tasks.GET("", controller.GetAllTasks)
 		tasks.POST("", controller.AddTask)
-		tasks.GET("/:id", controller.FindTaskById)
-		tasks.PUT("/:id", controller.UpdateTask)
-		tasks.DELETE("/:id", controller.DeleteTask)
+		tasks.GET(enum.ROUTER_PARAM_ID, controller.FindTaskById)
+		tasks.PUT(enum.ROUTER_PARAM_ID, controller.UpdateTask)
+		tasks.DELETE(enum.ROUTER_PARAM_ID, controller.DeleteTask)
 	}
 	swagger.SwaggerRoute(e)
 }

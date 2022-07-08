@@ -38,7 +38,7 @@ func (repo *TaskRepo) OutFindTaskById(ID int) (entity.Task, error) {
 	return task, nil
 }
 
-func (repo *TaskRepo) OutInUpdateTask(ID int, task *entity.Task) (*entity.Task, error) {
+func (repo *TaskRepo) OutUpdateTask(ID int, task *entity.Task) (*entity.Task, error) {
 	err := repo.db.Model(&entity.Task{}).Where("id = ?", ID).UpdateColumns(
 		map[string]interface{}{
 			"name":        task.Name,

@@ -7,6 +7,7 @@ import (
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/port/in"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/usescases"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/dto"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/enum"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"net/http"
@@ -42,7 +43,7 @@ func GetAllTasks(c echo.Context) error {
 		tasksDto = append(tasksDto, mappers.TaskDomainToDto(taskDomain))
 	}
 	return c.JSON(http.StatusOK, dto.Message{
-		Message: fmt.Sprintf("enums.MessageSuccessfully, enums.MessageTasks, enums.MessageLoaded"),
+		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_LOADED),
 		Data:    tasksDto,
 	})
 }
@@ -83,7 +84,7 @@ func AddTask(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, dto.Message{
-		Message: "CREATE",
+		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_CREATED),
 		Data:    dataDto,
 	})
 }
@@ -97,10 +98,15 @@ func AddTask(c echo.Context) error {
 // @Param id path int true "Task ID"
 // @Success 200 {object} dto.Message
 // @Failure 400 {object} dto.MessageError
+// @Failure 404 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks/{id} [get]
 func FindTaskById(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param(enum.ROUTER_ID))
+	if err != nil {
+		log.Error(err)
+		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+	}
 	dataDomain, err := taskPortIn.InFindTaskById(id)
 	if err != nil {
 		log.Error(err)
@@ -109,7 +115,7 @@ func FindTaskById(c echo.Context) error {
 	dataDto := mappers.TaskDomainToDto(dataDomain)
 
 	return c.JSON(http.StatusOK, dto.Message{
-		Message: "FIND",
+		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_LOADED),
 		Data:    dataDto,
 	})
 }
@@ -124,10 +130,15 @@ func FindTaskById(c echo.Context) error {
 // @Param task body	dto.Task true "Task"
 // @Success 200 {object} dto.Message
 // @Failure 400 {object} dto.MessageError
+// @Failure 404 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks/{id} [put]
 func UpdateTask(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param(enum.ROUTER_ID))
+	if err != nil {
+		log.Error(err)
+		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+	}
 	var data dto.Task
 
 	if err := c.Bind(&data); err != nil {
@@ -151,7 +162,7 @@ func UpdateTask(c echo.Context) error {
 	dataDto := mappers.TaskDomainToDto(res)
 
 	return c.JSON(http.StatusCreated, dto.Message{
-		Message: "UPDATE",
+		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_UPDATE),
 		Data:    dataDto,
 	})
 }
@@ -168,13 +179,13 @@ func UpdateTask(c echo.Context) error {
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks/{id} [delete]
 func DeleteTask(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(c.Param(enum.ROUTER_ID))
 	err := taskPortIn.InDeleteTask(id)
 	if err != nil {
 		log.Error(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, dto.Message{
-		Message: fmt.Sprintf("enums.MessageSuccessfully, enums.MessageTask, enums.MessageDeleted"),
+		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_DELETED),
 	})
 }

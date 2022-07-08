@@ -6,7 +6,7 @@ type Task struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name" validate:"required" example:"Estudiar Go"`
 	Description string `json:"description" validate:"required" example:"Comprender la arquitectura hexagonal"`
-	Punctuation int    `json:"puntuation" validate:"required,min=1,max=10" example:"2"`
+	Punctuation int    `json:"punctuation" validate:"required,min=1,max=10" example:"2"`
 }
 
 func (e *Task) Validate() error {
