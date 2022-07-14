@@ -15,8 +15,8 @@ func Execute() {
 	} else {
 		dbInstance := config.ConnInstance()
 		task := []entity.Task{
-			{Name: "test 1", Description: "Lorem Ipsum is simply dummy text.", Punctuation: 5},
-			{Name: "test 2", Description: "Lorem Ipsum is simply dummy text.", Punctuation: 8},
+			{Name: "dummy 1", Description: "Lorem Ipsum is simply dummy text.", Punctuation: 5},
+			{Name: "dummy 2", Description: "Lorem Ipsum is simply dummy text.", Punctuation: 8},
 		}
 		for _, c := range task {
 			err := dbInstance.Create(&c).Error

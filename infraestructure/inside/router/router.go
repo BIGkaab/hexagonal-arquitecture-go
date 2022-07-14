@@ -1,6 +1,8 @@
 package router
 
 import (
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper/impl"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/application/usescases"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/controller"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/enum"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/swagger"
@@ -21,12 +23,13 @@ import (
 func Routes(e *echo.Echo) {
 	v1 := e.Group(enum.ROUTER_GROUP_GLOBAL)
 	tasks := v1.Group(enum.ROUTER_TASK_GROUP)
+	t := controller.NewTaskPortIn(usescases.NewTaskPortOut(), impl.NewTaskMapperImpl())
 	{
-		tasks.GET("", controller.GetAllTasks)
-		tasks.POST("", controller.AddTask)
-		tasks.GET(enum.ROUTER_PARAM_ID, controller.FindTaskById)
-		tasks.PUT(enum.ROUTER_PARAM_ID, controller.UpdateTask)
-		tasks.DELETE(enum.ROUTER_PARAM_ID, controller.DeleteTask)
+		tasks.GET("", t.GetAllTasks)
+		tasks.POST("", t.AddTask)
+		tasks.GET(enum.ROUTER_PARAM_ID, t.FindTaskById)
+		tasks.PUT(enum.ROUTER_PARAM_ID, t.UpdateTask)
+		tasks.DELETE(enum.ROUTER_PARAM_ID, t.DeleteTask)
 	}
 	swagger.SwaggerRoute(e)
 }

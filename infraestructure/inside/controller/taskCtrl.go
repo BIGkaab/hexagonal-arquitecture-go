@@ -17,9 +17,13 @@ import (
 var taskPortIn in.TaskPortIn = usescases.NewTaskPortOut()
 var mappers mapper.TaskMapper = impl.NewTaskMapperImpl()
 
-func NewTaskPortIn(portIn in.TaskPortIn, mapper mapper.TaskMapper) {
-	taskPortIn = portIn
-	mappers = mapper
+type controller struct {
+	portIn in.TaskPortIn
+	mapper mapper.TaskMapper
+}
+
+func NewTaskPortIn(portIn in.TaskPortIn, mapper mapper.TaskMapper) *controller {
+	return &controller{portIn, mapper}
 }
 
 // GetAllTasks dogoc
@@ -28,13 +32,13 @@ func NewTaskPortIn(portIn in.TaskPortIn, mapper mapper.TaskMapper) {
 // @Description return all tasks
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} dto.Message
+// @Success 200 {array} dto.Task
 // @Failure 400 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks [get]
-func GetAllTasks(c echo.Context) error {
+func (ctrl *controller) GetAllTasks(c echo.Context) error {
 	var tasksDto []dto.Task
-	tasksDomain, err := taskPortIn.InGetAllTasks()
+	tasksDomain, err := ctrl.portIn.InGetAllTasks()
 	if err != nil {
 		log.Error(err)
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
@@ -42,10 +46,8 @@ func GetAllTasks(c echo.Context) error {
 	for _, taskDomain := range tasksDomain {
 		tasksDto = append(tasksDto, mappers.TaskDomainToDto(taskDomain))
 	}
-	return c.JSON(http.StatusOK, dto.Message{
-		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_LOADED),
-		Data:    tasksDto,
-	})
+	return c.JSON(http.StatusOK, tasksDto)
+
 }
 
 // AddTask dogoc
@@ -59,7 +61,7 @@ func GetAllTasks(c echo.Context) error {
 // @Failure 400 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks [post]
-func AddTask(c echo.Context) error {
+func (ctrl *controller) AddTask(c echo.Context) error {
 	var data dto.Task
 
 	if err := c.Bind(&data); err != nil {
@@ -72,11 +74,11 @@ func AddTask(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	dataDomain := mappers.TaskDtoToDomain(data)
+	dataDomain := ctrl.mapper.TaskDtoToDomain(data)
 
-	res, err := taskPortIn.InAddTask(dataDomain)
+	res, err := ctrl.portIn.InAddTask(dataDomain)
 
-	dataDto := mappers.TaskDomainToDto(res)
+	dataDto := ctrl.mapper.TaskDomainToDto(res)
 
 	if err != nil {
 		log.Error(err)
@@ -101,18 +103,18 @@ func AddTask(c echo.Context) error {
 // @Failure 404 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks/{id} [get]
-func FindTaskById(c echo.Context) error {
+func (ctrl *controller) FindTaskById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param(enum.ROUTER_ID))
 	if err != nil {
 		log.Error(err)
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
-	dataDomain, err := taskPortIn.InFindTaskById(id)
+	dataDomain, err := ctrl.portIn.InFindTaskById(id)
 	if err != nil {
 		log.Error(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
-	dataDto := mappers.TaskDomainToDto(dataDomain)
+	dataDto := ctrl.mapper.TaskDomainToDto(dataDomain)
 
 	return c.JSON(http.StatusOK, dto.Message{
 		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_LOADED),
@@ -133,7 +135,7 @@ func FindTaskById(c echo.Context) error {
 // @Failure 404 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks/{id} [put]
-func UpdateTask(c echo.Context) error {
+func (ctrl *controller) UpdateTask(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param(enum.ROUTER_ID))
 	if err != nil {
 		log.Error(err)
@@ -150,16 +152,16 @@ func UpdateTask(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	dataDomain := mappers.TaskDtoToDomain(data)
+	dataDomain := ctrl.mapper.TaskDtoToDomain(data)
 
-	res, err := taskPortIn.InUpdateTask(id, dataDomain)
+	res, err := ctrl.portIn.InUpdateTask(id, dataDomain)
 
 	if err != nil {
 		log.Error(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	dataDto := mappers.TaskDomainToDto(res)
+	dataDto := ctrl.mapper.TaskDomainToDto(res)
 
 	return c.JSON(http.StatusCreated, dto.Message{
 		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_UPDATE),
@@ -178,9 +180,9 @@ func UpdateTask(c echo.Context) error {
 // @Failure 400 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks/{id} [delete]
-func DeleteTask(c echo.Context) error {
+func (ctrl *controller) DeleteTask(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param(enum.ROUTER_ID))
-	err := taskPortIn.InDeleteTask(id)
+	err := ctrl.portIn.InDeleteTask(id)
 	if err != nil {
 		log.Error(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
