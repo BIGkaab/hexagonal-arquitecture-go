@@ -1,11 +1,5 @@
 basePath: /api
 definitions:
-  dto.Message:
-    properties:
-      data: {}
-      message:
-        type: string
-    type: object
   dto.MessageError:
     properties:
       message:
@@ -56,7 +50,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/dto.Message'
+              $ref: '#/definitions/dto.Task'
             type: array
         "400":
           description: Bad Request
@@ -86,7 +80,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Message'
+            $ref: '#/definitions/dto.Task'
         "400":
           description: Bad Request
           schema:
@@ -112,10 +106,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.Message'
+        "204":
+          description: ""
         "400":
           description: Bad Request
           schema:
@@ -143,7 +135,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Message'
+            $ref: '#/definitions/dto.Task'
         "400":
           description: Bad Request
           schema:
@@ -181,7 +173,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.Message'
+            $ref: '#/definitions/dto.Task'
         "400":
           description: Bad Request
           schema:

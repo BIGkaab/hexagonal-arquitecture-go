@@ -50,7 +50,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/dto.Message"
+                                "$ref": "#/definitions/dto.Task"
                             }
                         }
                     },
@@ -95,7 +95,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Message"
+                            "$ref": "#/definitions/dto.Task"
                         }
                     },
                     "400": {
@@ -139,7 +139,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Message"
+                            "$ref": "#/definitions/dto.Task"
                         }
                     },
                     "400": {
@@ -196,7 +196,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.Message"
+                            "$ref": "#/definitions/dto.Task"
                         }
                     },
                     "400": {
@@ -241,11 +241,8 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.Message"
-                        }
+                    "204": {
+                        "description": ""
                     },
                     "400": {
                         "description": "Bad Request",
@@ -264,15 +261,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "dto.Message": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
         "dto.MessageError": {
             "type": "object",
             "properties": {

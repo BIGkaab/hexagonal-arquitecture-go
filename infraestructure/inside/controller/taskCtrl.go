@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper/impl"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/port/in"
@@ -41,7 +40,7 @@ func (ctrl *controller) GetAllTasks(c echo.Context) error {
 	tasksDomain, err := ctrl.portIn.InGetAllTasks()
 	if err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	for _, taskDomain := range tasksDomain {
 		tasksDto = append(tasksDto, mappers.TaskDomainToDto(taskDomain))
@@ -57,7 +56,7 @@ func (ctrl *controller) GetAllTasks(c echo.Context) error {
 // @Accept  json
 // @Produce  json
 // @Param task body	dto.Task true "Task"
-// @Success 200 {object} dto.Message
+// @Success 200 {object} dto.Task
 // @Failure 400 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks [post]
@@ -85,10 +84,7 @@ func (ctrl *controller) AddTask(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusCreated, dto.Message{
-		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_CREATED),
-		Data:    dataDto,
-	})
+	return c.JSON(http.StatusCreated, dataDto)
 }
 
 // FindTaskById dogoc
@@ -98,7 +94,7 @@ func (ctrl *controller) AddTask(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Task ID"
-// @Success 200 {object} dto.Message
+// @Success 200 {object} dto.Task
 // @Failure 400 {object} dto.MessageError
 // @Failure 404 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
@@ -116,10 +112,7 @@ func (ctrl *controller) FindTaskById(c echo.Context) error {
 	}
 	dataDto := ctrl.mapper.TaskDomainToDto(dataDomain)
 
-	return c.JSON(http.StatusOK, dto.Message{
-		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_LOADED),
-		Data:    dataDto,
-	})
+	return c.JSON(http.StatusOK, dataDto)
 }
 
 // UpdateTask dogoc
@@ -130,7 +123,7 @@ func (ctrl *controller) FindTaskById(c echo.Context) error {
 // @Produce json
 // @Param id path int true "Task ID"
 // @Param task body	dto.Task true "Task"
-// @Success 200 {object} dto.Message
+// @Success 200 {object} dto.Task
 // @Failure 400 {object} dto.MessageError
 // @Failure 404 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
@@ -163,10 +156,7 @@ func (ctrl *controller) UpdateTask(c echo.Context) error {
 
 	dataDto := ctrl.mapper.TaskDomainToDto(res)
 
-	return c.JSON(http.StatusCreated, dto.Message{
-		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_UPDATE),
-		Data:    dataDto,
-	})
+	return c.JSON(http.StatusOK, dataDto)
 }
 
 // DeleteTask dogoc
@@ -176,7 +166,7 @@ func (ctrl *controller) UpdateTask(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Task ID"
-// @Success 200 {object} dto.Message
+// @Success 204
 // @Failure 400 {object} dto.MessageError
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks/{id} [delete]
@@ -187,7 +177,5 @@ func (ctrl *controller) DeleteTask(c echo.Context) error {
 		log.Error(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusOK, dto.Message{
-		Message: fmt.Sprintf(enum.MESSAGE_SUCCESS_FULLY, enum.MESSAGE_TASK, enum.MESSAGE_DELETED),
-	})
+	return c.JSON(http.StatusNoContent, nil)
 }

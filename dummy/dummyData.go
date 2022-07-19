@@ -7,7 +7,9 @@ import (
 )
 
 var (
-	TasksDto = []dto.Task{{
+	InputTaskJson             = `{"id":1, "name":"dummy", "description":"Lorem Ipsum is simply dummy text.", "punctuation":9}`
+	InputTaskJsonFailValidate = `{"id":1, "name":"dummy", "description":"Lorem Ipsum is simply dummy text."}`
+	TasksDto                  = []dto.Task{{
 		ID:          1,
 		Name:        "dummy",
 		Description: "Lorem Ipsum is simply dummy text.",
