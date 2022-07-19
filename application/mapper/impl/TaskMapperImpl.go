@@ -13,6 +13,7 @@ type TaskMapperImpl struct {
 
 func (t TaskMapperImpl) TaskDtoToDomain(task dto.Task) domain.Task {
 	return domain.Task{
+		ID:          task.ID,
 		Name:        task.Name,
 		Description: task.Description,
 		Punctuation: task.Punctuation,
@@ -21,6 +22,7 @@ func (t TaskMapperImpl) TaskDtoToDomain(task dto.Task) domain.Task {
 
 func (t TaskMapperImpl) TaskDomainToEntity(task domain.Task) entity.Task {
 	return entity.Task{
+		ID:          task.ID,
 		Name:        task.Name,
 		Description: task.Description,
 		Punctuation: task.Punctuation,
