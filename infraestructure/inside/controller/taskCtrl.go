@@ -2,9 +2,7 @@ package controller
 
 import (
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper"
-	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper/impl"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/port/in"
-	"github.com/BIGKaab/hexagonal-arquitecture-go/application/usescases"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/dto"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/enum"
 	"github.com/labstack/echo/v4"
@@ -12,9 +10,6 @@ import (
 	"net/http"
 	"strconv"
 )
-
-var taskPortIn in.TaskPortIn = usescases.NewTaskPortOut()
-var mappers mapper.TaskMapper = impl.NewTaskMapperImpl()
 
 type controller struct {
 	portIn in.TaskPortIn
@@ -43,7 +38,7 @@ func (ctrl *controller) GetAllTasks(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	for _, taskDomain := range tasksDomain {
-		tasksDto = append(tasksDto, mappers.TaskDomainToDto(taskDomain))
+		tasksDto = append(tasksDto, ctrl.mapper.TaskDomainToDto(taskDomain))
 	}
 	return c.JSON(http.StatusOK, tasksDto)
 

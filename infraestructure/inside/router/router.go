@@ -6,6 +6,7 @@ import (
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/controller"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/enum"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/inside/swagger"
+	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/repo"
 
 	"github.com/labstack/echo/v4"
 )
@@ -23,7 +24,7 @@ import (
 func Routes(e *echo.Echo) {
 	v1 := e.Group(enum.ROUTER_GROUP_GLOBAL)
 	tasks := v1.Group(enum.ROUTER_TASK_GROUP)
-	t := controller.NewTaskPortIn(usescases.NewTaskPortOut(), impl.NewTaskMapperImpl())
+	t := controller.NewTaskPortIn(usescases.NewTaskPortOut(repo.NewTaskRepo(), impl.NewTaskMapperImpl()), impl.NewTaskMapperImpl())
 	{
 		tasks.GET("", t.GetAllTasks)
 		tasks.POST("", t.AddTask)

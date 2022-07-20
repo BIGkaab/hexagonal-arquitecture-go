@@ -2,10 +2,8 @@ package usescases
 
 import (
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper"
-	"github.com/BIGKaab/hexagonal-arquitecture-go/application/mapper/impl"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/application/port/out"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/domain"
-	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/repo"
 	"github.com/labstack/gommon/log"
 )
 
@@ -72,6 +70,8 @@ func (t TaskServiceRepo) InDeleteTask(ID int) error {
 	return nil
 }
 
-func NewTaskPortOut() *TaskServiceRepo {
-	return &TaskServiceRepo{portOut: repo.NewTaskRepo(), mapper: impl.NewTaskMapperImpl()}
+func NewTaskPortOut(portOut out.TaskPortOut, mapper mapper.TaskMapper) *TaskServiceRepo {
+	return &TaskServiceRepo{
+		portOut, mapper,
+	}
 }
