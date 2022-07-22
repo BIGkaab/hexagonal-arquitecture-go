@@ -26,7 +26,7 @@ func TestInGetAllTasks_OK(t *testing.T) {
 	assert.Equal(t, dummy.TasksDomain, tasks)
 }
 
-func TestInGetAllTasks_Fail(t *testing.T) {
+func TestInGetAllTasks_InternalServerError(t *testing.T) {
 	//mocks
 	repo := &mocks.TaskPortOut{}
 	repo.On("OutGetAllTasks").Return(nil, errors.New(enum.INTERNAL_SERVER_ERROR))
@@ -55,7 +55,7 @@ func TestInAddTask_OK(t *testing.T) {
 	assert.Equal(t, dummy.TaskDomain, task)
 }
 
-func TestInAddTask_Fail(t *testing.T) {
+func TestInAddTask_InternalServerError(t *testing.T) {
 	//mocks
 	repo := &mocks.TaskPortOut{}
 	repo.On("OutAddTask", &dummy.TaskEntity).Return(&dummy.TaskEntity, errors.New(enum.INTERNAL_SERVER_ERROR))
@@ -84,7 +84,7 @@ func TestInFindTaskById_OK(t *testing.T) {
 	assert.Equal(t, dummy.TaskDomain, task)
 }
 
-func TestInFindTaskById_Fail(t *testing.T) {
+func TestInFindTaskById_InternalServerError(t *testing.T) {
 	//mocks
 	repo := &mocks.TaskPortOut{}
 	repo.On("OutFindTaskById", 1).Return(dummy.TaskEntity, errors.New(enum.INTERNAL_SERVER_ERROR))
@@ -113,7 +113,7 @@ func TestInUpdateTask_OK(t *testing.T) {
 	assert.Equal(t, dummy.TaskDomain, task)
 }
 
-func TestInUpdateTask_Fail(t *testing.T) {
+func TestInUpdateTask_InternalServerError(t *testing.T) {
 	//mocks
 	repo := &mocks.TaskPortOut{}
 	repo.On("OutUpdateTask", 1, &dummy.TaskEntity).Return(&dummy.TaskEntity, errors.New(enum.INTERNAL_SERVER_ERROR))
@@ -140,7 +140,7 @@ func TestDeleteTask_OK(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestDeleteTask_Fail(t *testing.T) {
+func TestDeleteTask_InternalServerError(t *testing.T) {
 	//mocks
 	repo := &mocks.TaskPortOut{}
 	repo.On("OutDeleteTask", 1).Return(errors.New(enum.INTERNAL_SERVER_ERROR))
