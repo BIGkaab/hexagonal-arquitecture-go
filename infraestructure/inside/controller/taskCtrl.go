@@ -35,7 +35,7 @@ func (ctrl *controller) GetAllTasks(c echo.Context) error {
 	tasksDomain, err := ctrl.portIn.InGetAllTasks()
 	if err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	for _, taskDomain := range tasksDomain {
 		tasksDto = append(tasksDto, ctrl.mapper.TaskDomainToDto(taskDomain))
@@ -60,12 +60,12 @@ func (ctrl *controller) AddTask(c echo.Context) error {
 
 	if err := c.Bind(&data); err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	if err := data.Validate(); err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	dataDomain := ctrl.mapper.TaskDtoToDomain(data)
@@ -76,7 +76,8 @@ func (ctrl *controller) AddTask(c echo.Context) error {
 
 	if err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
+
 	}
 
 	return c.JSON(http.StatusCreated, dataDto)
@@ -98,12 +99,12 @@ func (ctrl *controller) FindTaskById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param(enum.ROUTER_ID))
 	if err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		return c.JSON(http.StatusNotFound, err.Error())
 	}
 	dataDomain, err := ctrl.portIn.InFindTaskById(id)
 	if err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	dataDto := ctrl.mapper.TaskDomainToDto(dataDomain)
 
@@ -127,17 +128,17 @@ func (ctrl *controller) UpdateTask(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param(enum.ROUTER_ID))
 	if err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		return c.JSON(http.StatusNotFound, err.Error())
 	}
 	var data dto.Task
 
 	if err := c.Bind(&data); err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	if err := data.Validate(); err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	dataDomain := ctrl.mapper.TaskDtoToDomain(data)
@@ -146,7 +147,7 @@ func (ctrl *controller) UpdateTask(c echo.Context) error {
 
 	if err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	dataDto := ctrl.mapper.TaskDomainToDto(res)
@@ -166,11 +167,15 @@ func (ctrl *controller) UpdateTask(c echo.Context) error {
 // @Failure 500 {object} dto.MessageError
 // @Router /tasks/{id} [delete]
 func (ctrl *controller) DeleteTask(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param(enum.ROUTER_ID))
-	err := ctrl.portIn.InDeleteTask(id)
+	id, err := strconv.Atoi(c.Param(enum.ROUTER_ID))
 	if err != nil {
 		log.Error(err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusNotFound, err.Error())
+	}
+	err = ctrl.portIn.InDeleteTask(id)
+	if err != nil {
+		log.Error(err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusNoContent, nil)
 }
