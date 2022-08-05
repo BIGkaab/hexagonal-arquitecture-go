@@ -4,11 +4,13 @@ import (
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/config"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/entity"
 	"github.com/labstack/gommon/log"
+	"os"
+	"strconv"
 )
 
 func Execute() {
-	//runSeeders, _ := strconv.ParseBool(os.Getenv("RUN_SEEDERS"))
-	runSeeders := true
+	runSeeders, _ := strconv.ParseBool(os.Getenv("DATABASE_RUN_SEEDERS"))
+	//runSeeders := true
 
 	if !runSeeders {
 		log.Warn("Seeders disabled")

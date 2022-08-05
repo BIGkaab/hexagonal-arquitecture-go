@@ -4,14 +4,16 @@ import (
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/config"
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/entity"
 	"github.com/labstack/gommon/log"
+	"os"
+	"strconv"
 )
 
 func Execute() {
 
-	//runMigrations, _ := strconv.ParseBool(os.Getenv("RUN_MIGRATIONS"))
-	runMigrations := true
-	//dropTableIfExists, _ := strconv.ParseBool(os.Getenv("DROP_TABLE_IF_EXISTS"))
-	dropTableIfExists := true
+	runMigrations, _ := strconv.ParseBool(os.Getenv("DATABASE_RUN_MIGRATIONS"))
+	//runMigrations := true
+	dropTableIfExists, _ := strconv.ParseBool(os.Getenv("DATABASE_DROP_TABLE_IF_EXISTS"))
+	//dropTableIfExists := true
 
 	if !runMigrations {
 		log.Warn("Migrations disabled")

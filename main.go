@@ -8,9 +8,14 @@ import (
 	"github.com/BIGKaab/hexagonal-arquitecture-go/infraestructure/outside/gorm/seeder"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/subosito/gotenv"
+	"os"
 )
 
 func main() {
+	//Environment
+	gotenv.Load()
+
 	// Echo initialization
 	e := echo.New()
 
@@ -30,5 +35,6 @@ func main() {
 	seeder.Execute()
 
 	// Start the server
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":3005")))
+	//e.Logger.Fatal(e.Start(fmt.Sprintf(":3005")))
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", os.Getenv("API_PORT"))))
 }
